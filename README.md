@@ -1,45 +1,56 @@
 # WatermarkRemover-AI-Revamped
 
-**AI-Powered Watermark Removal Tool using Florence-2 and LaMA Models**
+**AI-Powered Watermark Removal Tool using Florence-2 and LaMA/IOPaint Models**
 
 🇬🇷 Ελληνικά | 🇬🇧 English | 🇫🇷 Français | 🇨🇳 中文 | 🇧🇷 Português
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-> A fork of [D-Ogi/WatermarkRemover-AI](https://github.com/D-Ogi/WatermarkRemover-AI) with startup-hang fixes, background CUDA/GPU detection, a pinned working CUDA torch build, and (soon) premade builds.
+A fork of [D-Ogi/WatermarkRemover-AI](https://github.com/D-Ogi/WatermarkRemover-AI), cleaned up and hardened for everyday use: startup crashes fixed, a proper Corporate UI, a choice of inpainting models, and no more novelty theming or joke copy anywhere in the app.
 
 ---
 
 ## Overview
 
-`WatermarkRemover-AI` is a cutting-edge application that leverages AI models for precise watermark detection and seamless removal. Perfect for removing watermarks from AI-generated videos like Sora, Sora 2, Runway, and others.
+`WatermarkRemover-AI-Revamped` uses AI models for precise watermark detection and seamless removal. It works well for removing watermarks from AI-generated video (Sora, Sora 2, Runway, and similar tools) as well as regular images and video.
 
-It uses Florence-2 from Microsoft for watermark identification and LaMA for inpainting to fill in the removed regions naturally. The software features a modern GUI built with PyWebview for an accessible and intuitive experience.
+Florence-2 (Microsoft) handles watermark detection, and an IOPaint inpainting model fills in the removed region naturally. The app has a GUI built with PyWebview, plus a full CLI for scripted or headless use.
 
-## Screenshot
+---
 
-![App Screenshot](assets/screenshot-preview.png)
+## What's Different from Upstream
 
-## Demo
+### Reliability fixes
+- **Fixed a startup freeze/hang** - launching via `run.bat` (pythonw.exe, no console) could crash the print/log handler and leave the window "Not Responding." Output is now routed through a safe stream wrapper that can't raise.
+- **Non-blocking CUDA/GPU detection** - detection used to run on the UI thread and freeze the window for several seconds on launch; it now runs in the background and the UI polls for the result.
+- **Pinned a verified-working CUDA torch build** (`torch==2.6.0+cu124` / `torchvision==0.21.0+cu124`) - the previous open version range could silently resolve to a CPU-only wheel.
 
+### New features
+- **Inpainting model picker** - choose from all 8 IOPaint models (LaMa, LDM, ZITS, MAT, FcF, Manga, OpenCV, MI-GAN) instead of being locked to LaMa. Wired through both the GUI and the CLI (`--model`).
+- **Full Greek localization** - Greek is now a complete, first-class translation and the default language.
 
-https://github.com/user-attachments/assets/505be2a8-8eda-4def-90b6-5a4ceefee456
-
+### Cleanup
+- **Removed all novelty UI themes** (Slay Queen, Sigma, WitchTok, Coquette, Windows XP, Anime, "Brainrot") - the app now ships with a single clean Corporate theme.
+- **Removed the "Brainrot" language pack** and the scrolling marquee banner.
+- **Removed the Japanese language pack entirely** - it contained coded language sexualizing minors, not just crude humor. This isn't part of the app in any form.
+- **Rewrote the French, Chinese, and Portuguese translations from scratch** - the originals were slang/meme copy (crime jokes, absent-father jokes, etc.); all UI strings are now professional and consistent with the English and Greek versions.
+- **Version reset to v2** and the window/app title cleaned up (no more "Ohio Edition").
 
 ---
 
 ## Features
 
 - **Smart Detection** - AI-powered watermark detection using Florence-2
-- **Seamless Removal** - LaMA inpainting for natural-looking results
-- **Video Support** - Process videos with two-pass detection and audio preservation
-- **AI Video Ready** - Remove watermarks from Sora, Sora 2, Runway, and other AI-generated videos
-- **Batch Processing** - Handle entire folders at once
-- **Preview Mode** - Preview detected watermarks before processing
-- **Fade In/Out Handling** - Extend masks for watermarks that fade in/out
+- **Choice of Inpainting Models** - pick the IOPaint model that fits your image (LaMa, LDM, ZITS, MAT, FcF, Manga, OpenCV, MI-GAN)
+- **Seamless Removal** - natural-looking inpainting results
+- **Video Support** - two-pass detection with audio preservation
+- **AI Video Ready** - remove watermarks from Sora, Sora 2, Runway, and similar AI-generated video
+- **Batch Processing** - handle entire folders at once
+- **Preview Mode** - preview detected watermarks before processing
+- **Fade In/Out Handling** - extend masks for watermarks that fade in/out
 - **GPU Acceleration** - CUDA support for faster processing
-- **Multi-Language UI** - Available in Greek (default), English, French, Chinese, and Portuguese
-- **Clean Corporate UI** - Single professional theme
+- **Multi-Language UI** - Greek (default), English, French, Chinese, and Portuguese
+- **Clean Corporate UI** - a single, professional theme
 
 ---
 
@@ -84,10 +95,10 @@ Install FFmpeg to preserve audio when processing videos:
 ### GUI Mode
 
 1. Run the app (`run.bat` on Windows, `./run.sh` on macOS/Linux)
-2. Select your preferred language and theme from the top-right corner
+2. Select your preferred language from the top-right corner
 3. Select your mode (Single File or Batch)
 4. Set input and output paths
-5. Configure settings as needed
+5. Configure settings as needed, including the inpainting model
 6. Hit **Start Processing**
 
 Your settings are automatically saved and restored on next launch.
@@ -100,6 +111,9 @@ python remwm.py input.png output_folder/
 
 # With options
 python remwm.py ./images ./output --overwrite --max-bbox-percent=15 --force-format=PNG
+
+# Choose an inpainting model
+python remwm.py input.png ./output --model=migan
 
 # Process video with two-pass detection
 python remwm.py video.mp4 ./output --detection-skip=3 --fade-in=0.5 --fade-out=0.5
@@ -120,6 +134,7 @@ python remwm.py input.png --preview
 | `--detection-skip` | Detect every N frames for videos (1-10, default: 1) |
 | `--fade-in` | Extend mask backwards by N seconds (for fade-in watermarks) |
 | `--fade-out` | Extend mask forwards by N seconds (for fade-out watermarks) |
+| `--model` | Inpainting model to use: lama, ldm, zits, mat, fcf, manga, cv2, migan (default: lama) |
 | `--preview` | Preview detected watermarks without processing |
 
 ---
@@ -136,31 +151,13 @@ python remwm.py input.png --preview
 ## Tech Stack
 
 - **Florence-2** - Microsoft's vision model for watermark detection
-- **LaMA** - Large Mask Inpainting model
+- **IOPaint** - Inpainting model suite (LaMa, LDM, ZITS, MAT, FcF, Manga, OpenCV, MI-GAN)
 - **PyWebview** - Cross-platform webview wrapper
 - **Alpine.js** - Lightweight JavaScript framework for UI
 - **PyTorch** - Deep learning backend
 
 ---
 
-## Contributing
-
-Contributions are welcome! Feel free to:
-
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
-
----
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=SpyrosTheBoss/WatermarkRemover-AI-Revamped&type=date&legend=top-left)](https://www.star-history.com/#SpyrosTheBoss/WatermarkRemover-AI-Revamped&type=date&legend=top-left)
-
-
