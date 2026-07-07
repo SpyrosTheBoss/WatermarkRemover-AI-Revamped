@@ -1,132 +1,132 @@
 {
   "app": {
-    "title": "REMOVEDOR PIRATÃO 2025 (CRACKEADO)"
+    "title": "Watermark Remover AI"
   },
   "modes": {
-    "label": "Qual é a fita (Modo)",
-    "single": "X1 (Sozinho)",
-    "single_tooltip": "Resolver o B.O. de um arquivo só, na maciota.",
-    "batch": "Arrastão (Formação de Quadrilha)",
-    "batch_tooltip": "Roubar a marca d'água da pasta inteira. O bonde todo sem freio."
+    "label": "Modo de Processamento",
+    "single": "Arquivo Único",
+    "single_tooltip": "Processa uma imagem ou vídeo por vez.",
+    "batch": "Lote (Pasta)",
+    "batch_tooltip": "Processa todas as imagens/vídeos de uma pasta de uma só vez."
   },
   "settings": {
     "gaslight": {
-      "label": "Passar a Perna (Sobrescrever)",
-      "sublabel": "(Sem testemunhas)",
-      "tooltip": "Apaga o original e finge que nada aconteceu. O crime perfeito."
+      "label": "Substituir Arquivos",
+      "sublabel": "",
+      "tooltip": "Substitui arquivos de saída existentes em vez de ignorá-los."
     },
     "ghost": {
-      "label": "Modo Pai Ausente",
-      "sublabel": "(Foi comprar cigarro)",
-      "tooltip": "Deixa a área transparente igual teu pai que sumiu há 15 anos. (Só PNG/WEBP)"
+      "label": "Modo Transparente",
+      "sublabel": "(para treinamento LoRA)",
+      "tooltip": "Torna a área da marca d'água transparente em vez de preenchê-la. Recomendado para conjuntos de treinamento LoRA - ative o alpha masking no seu treinador LoRA. (Somente PNG/WEBP)"
     },
     "sigma_detect": {
-      "label": "Tamanho da Bitola",
-      "tooltip": "Se for maior que isso, o pai não tanka. Ignora pra não dar ruim."
+      "label": "Tamanho Máximo de Detecção",
+      "tooltip": "Tamanho máximo da marca d'água como % da imagem. Detecções maiores que isso serão ignoradas."
     },
     "detection_prompt": {
-      "label": "O que nós vai roubar?",
-      "placeholder": "marca d'agua",
-      "tooltip": "Fala pro pai o que tem que sumir. Ex: logo, texto, dívida no Serasa."
+      "label": "Prompt de Detecção",
+      "placeholder": "watermark",
+      "tooltip": "O que detectar e remover. Experimente: watermark, logo, text, signature, etc."
     },
     "inpaint_model": {
-      "label": "Motor do Crime (Modelo IA)",
-      "tooltip": "A IA que tapa o buraco depois do roubo. LaMa é o padrão, resolve 90% dos perrengues."
+      "label": "Modelo de Reconstrução",
+      "tooltip": "Modelo de IA usado para preencher a área após a remoção da marca d'água. LaMa é o padrão e funciona bem na maioria dos casos."
     },
     "output_format": {
-      "label": "Saída (Naipe)",
-      "tooltip": "Escolhe como vai sair o produto do roubo.",
-      "auto": "Original (Roubado)",
-      "png": "PNG (Sem Fundo igual minha conta)",
-      "jpg": "JPG (Qualidade TekPix)",
-      "webp": "WEBP (Leve pra rodar no J2 Prime)",
-      "mp4": "MP4 (Vazou no Zap)",
-      "avi": "AVI (Filme de Camelô)"
+      "label": "Formato de Saída",
+      "tooltip": "Escolha o formato do arquivo de saída. Automático mantém o formato original.",
+      "auto": "Automático (Manter Original)",
+      "png": "PNG (Sem Perdas)",
+      "jpg": "JPG (Compactado)",
+      "webp": "WEBP (Moderno)",
+      "mp4": "MP4 (Vídeo)",
+      "avi": "AVI (Vídeo)"
     }
   },
   "video_settings": {
-    "title": "Configurações da Câmera de Segurança",
+    "title": "Configurações de Vídeo",
     "detection_skip": {
-      "label": "Pular Quadros (Preguiça)",
-      "unit": "frames",
-      "hint": "Quanto maior, mais rápido o golpe, mas pode deixar rastro."
+      "label": "Pular Quadros na Detecção",
+      "unit": "quadros",
+      "hint": "Valores maiores = processamento mais rápido, mas pode perder marcas d'água breves."
     },
     "fade_in": {
-      "label": "Margem de Erro (Começo)",
-      "hint": "Começar a apagar antes pra garantir."
+      "label": "Margem de Aparecimento",
+      "hint": "Estende a remoção para trás no tempo (para marcas d'água que aparecem gradualmente)."
     },
     "fade_out": {
-      "label": "Margem de Erro (Final)",
-      "hint": "Continuar apagando depois pra não sobrar prova."
+      "label": "Margem de Desaparecimento",
+      "hint": "Estende a remoção para frente no tempo (para marcas d'água que desaparecem gradualmente)."
     }
   },
   "buttons": {
-    "preview": "👀 Manjar (Só uma olhadinha)",
-    "preview_tooltip": "Vê se vai dar bom antes de cometer o crime.",
-    "preview_loading": "🔄 Calulando o prejuízo...",
-    "start": "LANÇAR A BRABA 🚀",
-    "start_processing": "APLICANDO O GOLPE...",
-    "stop": "SUJOU (VEM A POLÍCIA)",
-    "browse": "Xeretar",
-    "try_again": "🔄 Tenta de novo (O pai é brasileiro)",
-    "close": "Vazar",
-    "copy_error": "📋 Copiar o B.O."
+    "preview": "🔍 Pré-visualizar Detecção",
+    "preview_tooltip": "Veja o que a IA detecta antes do processamento. Mostra as áreas de detecção.",
+    "preview_loading": "🔄 Detectando...",
+    "start": "Iniciar Processamento",
+    "start_processing": "Processando...",
+    "stop": "Parar",
+    "browse": "Procurar",
+    "try_again": "🔄 Tentar Novamente",
+    "close": "Fechar",
+    "copy_error": "📋 Copiar Erro"
   },
   "dropzone": {
-    "title": "Joga a Bomba Aqui",
-    "subtitle": "ou clica pra buscar nos arquivos secretos",
-    "video_hint": "vídeo proibido - clica pra trocar",
-    "image_hint": "imagem amaldiçoada - clica pra trocar"
+    "title": "Solte os Arquivos Aqui",
+    "subtitle": "ou clique para procurar",
+    "video_hint": "arquivo de vídeo - clique para alterar",
+    "image_hint": "clique para alterar"
   },
   "output": {
-    "placeholder": "Onde esconder o corpo (pasta)..."
+    "placeholder": "Pasta de saída..."
   },
   "status_bar": {
-    "cuda": "GAMBIARRA",
-    "ffmpeg": "PIRATARIA",
-    "ram": "MEMÓRIA",
-    "on": "TÁ ON",
-    "off": "DEU RUIM",
-    "cpu_mode": "Modo Batata (CPU)"
+    "cuda": "CUDA",
+    "ffmpeg": "FFmpeg",
+    "ram": "RAM",
+    "on": "ATIVADO",
+    "off": "DESATIVADO",
+    "cpu_mode": "Modo CPU"
   },
   "preview_modal": {
-    "title": "Prévia do Crime",
-    "prompt": "Alvo:",
-    "detected": "Achamos:",
-    "source": "Vítima:",
-    "regions": "alvos marcados",
-    "bounding_boxes": "Área do Assalto:",
-    "of_image": "% da tela",
-    "too_large": "(muito grande, o pai não aguenta)",
-    "loading": "Consultando o Serasa...",
-    "loading_hint": "(Primeira vez baixa uns 1.5GB de vírus... confia)"
+    "title": "Pré-visualização da Detecção",
+    "prompt": "Prompt:",
+    "detected": "Detectado:",
+    "source": "Origem:",
+    "regions": "região(ões)",
+    "bounding_boxes": "Áreas de Detecção:",
+    "of_image": "% da imagem",
+    "too_large": "(muito grande, será ignorado)",
+    "loading": "Carregando pré-visualização...",
+    "loading_hint": "(A primeira execução pode baixar um modelo de ~1.5GB)"
   },
-  "marquee": "RECEBA /// O MELHOR DO MUNDO /// TRAVA ZAP /// URUBU DO PIX APROVOU /// LIBERDADE VAI CANTAR /// O PAI TÁ ON E ROTEANDO ///",
+  "marquee": "WATERMARK REMOVER AI /// DESENVOLVIDO COM FLORENCE-2 E LAMA /// REMOVA MARCAS D'ÁGUA COM IA ///",
   "processing_status": [
-    "Aplicando o golpe...",
-    "Clonando cartão...",
-    "Dando um perdido na marca d'água...",
-    "Fazendo o Urubu do Pix...",
-    "Rodando no J5 Prime...",
-    "Consultando os universitários...",
-    "Passando o pano...",
-    "Finalizando o esquema..."
+    "Processando...",
+    "Detectando marcas d'água...",
+    "Aplicando reconstrução...",
+    "Quase pronto...",
+    "Removendo marca d'água...",
+    "Executando modelo de IA...",
+    "Analisando imagem...",
+    "Finalizando..."
   ],
   "logs": {
-    "init": "Sistema da Boca iniciado.",
-    "starting": "Começando os trabalhos (ilegais)...",
-    "first_run_hint": "(Baixando a inteligência artificial da Shopee)",
-    "done": "RECEBA! O arquivo tá limpo, pai.",
-    "stopped": "Operação cancelada. A casa caiu.",
-    "no_input": "Cadê o arquivo, vacilão? Escolhe aí.",
-    "ghost_video_warning": "Modo Pai Ausente não funfa em vídeo. Desligando.",
-    "no_ffmpeg": "FFmpeg sumiu (foi roubado). Vídeo vai ficar mudo.",
-    "api_error": "Deu pau na API. Roda pelo .bat, parça.",
-    "preview_failed": "Deu ruim na visão:",
-    "preview_result": "Achei {total} B.Os, vou apagar {accepted} deles.",
-    "cooking": "Fritando o pastel..."
+    "init": "Sistema inicializado.",
+    "starting": "Iniciando processamento...",
+    "first_run_hint": "(A primeira execução pode baixar modelos de IA)",
+    "done": "Concluído! Arquivo processado com sucesso.",
+    "stopped": "Processamento interrompido pelo usuário.",
+    "no_input": "Nenhuma entrada selecionada. Selecione um arquivo primeiro.",
+    "ghost_video_warning": "O modo transparente não funciona com vídeos. Desativando.",
+    "no_ffmpeg": "FFmpeg não encontrado. O vídeo não terá áudio.",
+    "api_error": "API não disponível. Execute via run.bat/run.sh",
+    "preview_failed": "Falha na pré-visualização:",
+    "preview_result": "{total} regiões detectadas, {accepted} serão removidas.",
+    "cooking": "Processando..."
   },
   "lang": {
-    "label": "Gíria"
+    "label": "Idioma"
   }
 }

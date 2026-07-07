@@ -1,132 +1,132 @@
 {
   "app": {
-    "title": "👴的去水印神器 🐮🍺"
+    "title": "Watermark Remover AI"
   },
   "modes": {
-    "label": "整活模式",
-    "single": "孤儿模式",
-    "single_tooltip": "一次只搞一个，像个孤儿一样 🤡",
-    "batch": "开银趴",
-    "batch_tooltip": "大家一起上，甚至连甚至都在甚至 🥵"
+    "label": "处理模式",
+    "single": "单文件",
+    "single_tooltip": "一次处理一个图像或视频文件。",
+    "batch": "批量（文件夹）",
+    "batch_tooltip": "一次性处理文件夹中的所有图像/视频。"
   },
   "settings": {
     "gaslight": {
-      "label": "毁尸灭迹",
-      "sublabel": "(骨灰都给你扬了)",
-      "tooltip": "把原来的文件直接送走，不留活口 ⚰️"
+      "label": "覆盖文件",
+      "sublabel": "",
+      "tooltip": "覆盖已存在的输出文件，而不是跳过它们。"
     },
     "ghost": {
-      "label": "灵车漂移 👻",
-      "sublabel": "(透明/升天)",
-      "tooltip": "把水印变成透明的，方便你训练LoRA，这不比博人传燃？🔥 (仅限PNG/WEBP)"
+      "label": "透明模式",
+      "sublabel": "（用于 LoRA 训练）",
+      "tooltip": "将水印区域设为透明，而不是填充。建议用于 LoRA 训练数据集——请在您的 LoRA 训练工具中启用 Alpha 遮罩。（仅支持 PNG/WEBP）"
     },
     "sigma_detect": {
-      "label": "开天眼范围",
-      "tooltip": "太大的水印👴不修，别太荒谬 😅"
+      "label": "最大检测尺寸",
+      "tooltip": "水印占图像的最大百分比。超过此比例的检测结果将被跳过。"
     },
     "detection_prompt": {
-      "label": "圣旨",
-      "placeholder": "给👴删了",
-      "tooltip": "想删啥？watermark, logo, text... 别整那些有的没的 🤫"
+      "label": "检测提示词",
+      "placeholder": "watermark",
+      "tooltip": "要检测并移除的内容。例如：watermark、logo、text、signature 等。"
     },
     "inpaint_model": {
-      "label": "补坑引擎",
-      "tooltip": "填坑用的AI模型，默认LaMa，一般情况够用了 🛠️"
+      "label": "修复模型",
+      "tooltip": "用于填补水印移除区域的 AI 模型。LaMa 为默认模型，适用于大多数情况。"
     },
     "output_format": {
-      "label": "拉什么屎",
-      "tooltip": "选个格式，不然👴怎么知道你要啥？",
-      "auto": "随缘",
-      "png": "PNG (高清无码)",
-      "jpg": "JPG (电子包浆)",
-      "webp": "WEBP (二次元)",
-      "mp4": "MP4 (动作片)",
-      "avi": "AVI (老古董)"
+      "label": "输出格式",
+      "tooltip": "选择输出文件格式。自动将保留原始格式。",
+      "auto": "自动（保留原格式）",
+      "png": "PNG（无损）",
+      "jpg": "JPG（压缩）",
+      "webp": "WEBP（现代格式）",
+      "mp4": "MP4（视频）",
+      "avi": "AVI（视频）"
     }
   },
   "video_settings": {
-    "title": "视频那个事",
+    "title": "视频设置",
     "detection_skip": {
-      "label": "摸鱼频率",
+      "label": "检测跳帧",
       "unit": "帧",
-      "hint": "跳得越高越快，但可能漏掉小的，跟👴上班一样 🐟"
+      "hint": "数值越高，处理速度越快，但可能会漏检短暂出现的水印。"
     },
     "fade_in": {
-      "label": "前摇",
-      "hint": "往前多删点，别让水印复活了 🧟‍♂️"
+      "label": "淡入缓冲",
+      "hint": "向时间轴后方扩展移除范围（用于逐渐出现的水印）。"
     },
     "fade_out": {
-      "label": "后摇",
-      "hint": "往后多删点，送佛送到西 🙏"
+      "label": "淡出缓冲",
+      "hint": "向时间轴前方扩展移除范围（用于逐渐消失的水印）。"
     }
   },
   "buttons": {
-    "preview": "👀 偷窥一下",
-    "preview_tooltip": "先看看能不能行，别到时候拉了 💩",
-    "preview_loading": "👀 正在偷窥...",
-    "start": "给👴冲 🐛",
-    "start_processing": "正在施法 ⚡...",
-    "stop": "寄",
-    "browse": "顺手牵羊",
-    "try_again": "🔄 再冲一次",
-    "close": "爬",
-    "copy_error": "📋 挂人"
+    "preview": "🔍 预览检测",
+    "preview_tooltip": "在处理前查看 AI 检测到的内容，并显示检测框。",
+    "preview_loading": "🔄 检测中...",
+    "start": "开始处理",
+    "start_processing": "处理中...",
+    "stop": "停止",
+    "browse": "浏览",
+    "try_again": "🔄 重试",
+    "close": "关闭",
+    "copy_error": "📋 复制错误信息"
   },
   "dropzone": {
-    "title": "把垃圾扔进来 🗑️",
-    "subtitle": "或者点一下，别墨迹",
-    "video_hint": "是个视频，甚至有点像蔡徐坤 🏀",
-    "image_hint": "是个图，一眼顶真 📸"
+    "title": "将文件拖放至此",
+    "subtitle": "或点击浏览",
+    "video_hint": "视频文件 - 点击更改",
+    "image_hint": "点击更改"
   },
   "output": {
-    "placeholder": "屎拉哪里..."
+    "placeholder": "输出文件夹..."
   },
   "status_bar": {
-    "cuda": "核动力 (CUDA)",
-    "ffmpeg": "剪辑手 (FFmpeg)",
-    "ram": "脑容量",
-    "on": "勃起",
-    "off": "萎了",
-    "cpu_mode": "用爱发电"
+    "cuda": "CUDA",
+    "ffmpeg": "FFmpeg",
+    "ram": "内存",
+    "on": "开启",
+    "off": "关闭",
+    "cpu_mode": "CPU 模式"
   },
   "preview_modal": {
-    "title": "照妖镜",
-    "prompt": "咒语:",
-    "detected": "抓到了:",
-    "source": "来源:",
-    "regions": "个牛皮癣",
-    "bounding_boxes": "框框:",
-    "of_image": "% 的画面",
-    "too_large": "(太大了，装不下 🥵)",
-    "loading": "正在开坛做法...",
-    "loading_hint": "(第一次要下载模型，你家网线是也是抽象的吗？)"
+    "title": "检测预览",
+    "prompt": "提示词：",
+    "detected": "检测到：",
+    "source": "来源：",
+    "regions": "个区域",
+    "bounding_boxes": "检测框：",
+    "of_image": "% 的图像",
+    "too_large": "（过大，将被跳过）",
+    "loading": "正在加载预览...",
+    "loading_hint": "（首次运行可能需要下载约 1.5GB 的模型）"
   },
-  "marquee": "抽象去水印 /// 孙笑川都说好 /// 依托答辩变废为宝 /// 6324 /// NMSL /// 👴的青春回来了 ///",
+  "marquee": "WATERMARK REMOVER AI /// 由 FLORENCE-2 与 LAMA 强力驱动 /// 使用 AI 轻松移除水印 ///",
   "processing_status": [
-    "正在搓大招...",
-    "寻找牛皮癣...",
-    "使用美图秀秀 (假的)...",
-    "甚至有点想笑...",
-    "正在抹除记忆...",
-    "加大力度 💉...",
-    "这水印真白，啊不是，真大...",
-    "快好了，别催 💢..."
+    "处理中...",
+    "正在检测水印...",
+    "正在应用修复...",
+    "即将完成...",
+    "正在移除水印...",
+    "正在运行 AI 模型...",
+    "正在分析图像...",
+    "正在收尾..."
   ],
   "logs": {
-    "init": "系统已启动，带哥好 👋",
-    "starting": "好戏开场了 🎭...",
-    "first_run_hint": "(第一次要下模型，去泡杯枸杞茶吧 🍵)",
-    "done": "好勒，舒服了 ✨",
-    "stopped": "你把👴关了？坏女人 😭",
-    "no_input": "没东西你修个🔨？放文件啊！",
-    "ghost_video_warning": "视频不能变透明，你当是哈利波特呢？🚫",
-    "no_ffmpeg": "没装FFmpeg，视频没声音别怪👴 🔇",
-    "api_error": "API挂了，去跑 run.bat，别当巨婴 👶",
-    "preview_failed": "翻车了:",
-    "preview_result": "抓到 {total} 个鬼，超度了 {accepted} 个 🙏",
-    "cooking": "👴正在炒菜..."
+    "init": "系统已初始化。",
+    "starting": "正在启动处理...",
+    "first_run_hint": "（首次运行可能需要下载 AI 模型）",
+    "done": "完成！文件处理成功。",
+    "stopped": "处理已被用户停止。",
+    "no_input": "未选择输入文件，请先选择一个文件。",
+    "ghost_video_warning": "透明模式不支持视频，已自动关闭。",
+    "no_ffmpeg": "未找到 FFmpeg，视频将没有音频。",
+    "api_error": "API 不可用，请通过 run.bat/run.sh 运行。",
+    "preview_failed": "预览失败：",
+    "preview_result": "检测到 {total} 个区域，将移除 {accepted} 个。",
+    "cooking": "处理中..."
   },
   "lang": {
-    "label": "鸟语"
+    "label": "语言"
   }
 }
