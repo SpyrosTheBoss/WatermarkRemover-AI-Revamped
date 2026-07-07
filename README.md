@@ -5,8 +5,11 @@
 🇬🇧 English | 🇬🇷 Ελληνικά | 🇫🇷 Français | 🇨🇳 中文 | 🇧🇷 Português
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Download](https://img.shields.io/badge/Download-Prepackaged%20CUDA%20Build-brightgreen)](https://github.com/SpyrosTheBoss/WatermarkRemover-AI-Revamped/releases/latest)
 
 A fork of [D-Ogi/WatermarkRemover-AI](https://github.com/D-Ogi/WatermarkRemover-AI), cleaned up and hardened for everyday use: startup crashes fixed, a proper Corporate UI, a choice of inpainting models, and no more novelty theming or joke copy anywhere in the app.
+
+**Don't want to run the setup script?** Grab the [prepackaged Windows build](https://github.com/SpyrosTheBoss/WatermarkRemover-AI-Revamped/releases/latest) — CUDA-enabled PyTorch and every dependency are already installed, just extract and run `run.bat`.
 
 ---
 
