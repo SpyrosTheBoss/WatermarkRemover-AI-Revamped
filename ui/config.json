@@ -4,8 +4,8 @@
     { "id": "korpo", "name": "Corporate" }
   ],
   "languages": [
-    { "id": "el", "icon": "🇬🇷", "name": "Ελληνικά", "randomizable": true },
-    { "id": "en", "icon": "🇬🇧", "name": "English", "randomizable": false },
+    { "id": "en", "icon": "🇬🇧", "name": "English", "randomizable": true },
+    { "id": "el", "icon": "🇬🇷", "name": "Ελληνικά", "randomizable": false },
     { "id": "fr", "icon": "🇫🇷", "name": "Français", "randomizable": false },
     { "id": "zh", "icon": "🇨🇳", "name": "中文", "randomizable": false },
     { "id": "br", "icon": "🇧🇷", "name": "Brasileiro", "randomizable": false }

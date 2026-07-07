@@ -2,7 +2,7 @@
 
 **AI-Powered Watermark Removal Tool using Florence-2 and LaMA/IOPaint Models**
 
-🇬🇷 Ελληνικά | 🇬🇧 English | 🇫🇷 Français | 🇨🇳 中文 | 🇧🇷 Português
+🇬🇧 English | 🇬🇷 Ελληνικά | 🇫🇷 Français | 🇨🇳 中文 | 🇧🇷 Português
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -27,7 +27,7 @@ Florence-2 (Microsoft) handles watermark detection, and an IOPaint inpainting mo
 
 ### New features
 - **Inpainting model picker** - choose from all 8 IOPaint models (LaMa, LDM, ZITS, MAT, FcF, Manga, OpenCV, MI-GAN) instead of being locked to LaMa. Wired through both the GUI and the CLI (`--model`).
-- **Full Greek localization** - Greek is now a complete, first-class translation and the default language.
+- **Full Greek localization** - Greek is now a complete, first-class translation alongside English.
 
 ### Cleanup
 - **Removed all novelty UI themes** (Slay Queen, Sigma, WitchTok, Coquette, Windows XP, Anime, "Brainrot") - the app now ships with a single clean Corporate theme.
@@ -49,7 +49,7 @@ Florence-2 (Microsoft) handles watermark detection, and an IOPaint inpainting mo
 - **Preview Mode** - preview detected watermarks before processing
 - **Fade In/Out Handling** - extend masks for watermarks that fade in/out
 - **GPU Acceleration** - CUDA support for faster processing
-- **Multi-Language UI** - Greek (default), English, French, Chinese, and Portuguese
+- **Multi-Language UI** - English (default), Greek, French, Chinese, and Portuguese
 - **Clean Corporate UI** - a single, professional theme
 
 ---

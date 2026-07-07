@@ -338,7 +338,7 @@ class Api:
             'fade_out': fade_out,
             'inpaint_model': inpaint_model,
             'theme': settings.get('theme', 'korpo'),
-            'lang': settings.get('lang', 'el')
+            'lang': settings.get('lang', 'en')
         })
 
         # Build command
