@@ -727,6 +727,12 @@
                     if (window.pywebview) {
                         try {
                             const info = await pywebview.api.get_static_info();
+                            // Detection runs on a background thread; keep polling
+                            // until it finishes instead of blocking the UI.
+                            if (info.pending) {
+                                setTimeout(() => this.loadStaticInfo(), 500);
+                                return;
+                            }
                             this.systemInfo.cuda = info.cuda;
                             this.systemInfo.gpu = info.gpu_name || 'CPU MODE';
                             this.systemInfo.ffmpeg = info.ffmpeg;

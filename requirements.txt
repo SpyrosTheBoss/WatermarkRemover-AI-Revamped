@@ -1,7 +1,11 @@
-# Core AI/ML - CUDA 12.4 versions
+# Core AI/ML - CUDA 12.4 versions (pinned to the verified-working build)
+# NOTE: the explicit +cu124 local version tags force the CUDA wheels. Without them,
+# pip pulls PyPI's CPU-only torch and the app silently runs on CPU.
+# These exact versions are confirmed working on this machine (torch.cuda.is_available()
+# == True on an RTX 3050). Only bump them if you re-verify CUDA still initializes after.
 --extra-index-url https://download.pytorch.org/whl/cu124
-torch>=2.4.0
-torchvision>=0.19.0
+torch==2.6.0+cu124
+torchvision==0.21.0+cu124
 transformers>=4.50.0
 diffusers>=0.30.0
 numpy<2
@@ -23,5 +27,5 @@ psutil
 pyyaml
 
 # qt and gtk gui
-PyGObject
+#PyGObject
 qtpy

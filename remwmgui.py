@@ -28,6 +28,48 @@ import yaml
 import base64
 from pathlib import Path
 
+# When launched via pythonw.exe (run.bat) there is no console attached, so
+# sys.stdout/stderr are None or backed by an invalid OS handle. The many
+# print() calls (startup debug + per-line log streaming in _run_process) run on
+# pywebview's JS-API handler threads; if a write raises there the handler errors
+# out, the frontend retries, CPU spins and the WebView2 window goes "not
+# responding" a second after it appears. This wrapper makes every write/flush
+# unconditionally safe: a broken handle is detected on first write and the
+# stream permanently falls back to os.devnull, so output can never raise or hang.
+class _SafeStream:
+    def __init__(self, stream):
+        self._stream = stream if stream is not None else open(os.devnull, 'w')
+
+    def _fallback(self):
+        try:
+            self._stream.close()
+        except Exception:
+            pass
+        self._stream = open(os.devnull, 'w')
+
+    def write(self, data):
+        try:
+            return self._stream.write(data)
+        except Exception:
+            self._fallback()
+            try:
+                return self._stream.write(data)
+            except Exception:
+                return len(data) if isinstance(data, str) else 0
+
+    def flush(self):
+        try:
+            self._stream.flush()
+        except Exception:
+            self._fallback()
+
+    def __getattr__(self, name):
+        # Delegate isatty/encoding/buffer/fileno/etc. to the active stream.
+        return getattr(self._stream, name)
+
+sys.stdout = _SafeStream(sys.stdout)
+sys.stderr = _SafeStream(sys.stderr)
+
 # Only psutil for system info (lightweight)
 try:
     import psutil
@@ -53,6 +95,13 @@ class Api:
                 print(f"[DEBUG] Raw file contents:\n{f.read()}")
         self.config = self._load_config()
         print(f"[DEBUG] Config loaded at startup: {self.config}")
+
+        # Detecting CUDA imports torch in a subprocess (~7s). pywebview runs
+        # js_api calls on the UI thread, so doing it inside get_static_info would
+        # freeze the window ("not responding") until it finishes. Run it once in
+        # a background thread instead; get_static_info just serves the result.
+        self._static_info = None
+        threading.Thread(target=self._detect_static_info, daemon=True).start()
 
     def set_window(self, window):
         """Set the webview window reference"""
@@ -176,8 +225,8 @@ class Api:
 
         return conflicts
 
-    def get_static_info(self):
-        """Get static system info (CUDA, FFmpeg, GPU) - call once on startup"""
+    def _detect_static_info(self):
+        """Detect CUDA/GPU/FFmpeg (slow) on a background thread; cache result."""
         info = {
             'cuda': False,
             'gpu_name': None,
@@ -191,7 +240,7 @@ class Api:
         try:
             result = subprocess.run(
                 [sys.executable, '-c', 'import torch; print("CUDA:" + str(torch.cuda.is_available()) + ":" + (torch.cuda.get_device_name(0) if torch.cuda.is_available() else ""))'],
-                capture_output=True, text=True, timeout=10, creationflags=creationflags
+                capture_output=True, text=True, timeout=30, creationflags=creationflags
             )
             if result.returncode == 0 and 'CUDA:' in result.stdout:
                 parts = result.stdout.strip().split(':')
@@ -208,7 +257,15 @@ class Api:
         except (subprocess.SubprocessError, FileNotFoundError):
             info['ffmpeg'] = False
 
-        return info
+        self._static_info = info
+
+    def get_static_info(self):
+        """Return cached static system info, or a pending marker if detection
+        (started in __init__) is still running. Returns instantly so it never
+        blocks pywebview's UI thread. Frontend retries while pending is True."""
+        if self._static_info is None:
+            return {'cuda': False, 'gpu_name': None, 'ffmpeg': False, 'pending': True}
+        return self._static_info
 
     def get_dynamic_info(self):
         """Get dynamic system info (RAM, CPU) - call periodically"""
