@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -537,9 +537,9 @@
                 return await response.json();
             } catch (e) {
                 console.error('Failed to load language:', lang, e);
-                // Fallback to English
-                if (lang !== 'en') {
-                    return await loadLanguage('en');
+                // Fallback to Greek
+                if (lang !== 'el') {
+                    return await loadLanguage('el');
                 }
                 return null;
             }
@@ -561,7 +561,7 @@
                 progress: 0,
                 statusMsg: '',
                 theme: 'korpo',  // Default theme for loading screen
-                lang: 'en',
+                lang: 'el',
                 t: {}, // translations
                 // Dynamic config loaded from config.json
                 appVersion: '',
@@ -609,7 +609,7 @@
                         console.log('Failed to load config.json, using defaults');
                         this.appVersion = '0.0';
                         this.availableThemes = [{ id: 'korpo', name: 'Corporate' }];
-                        this.availableLanguages = [{ id: 'en', icon: '🇬🇧', name: 'English', randomizable: true }];
+                        this.availableLanguages = [{ id: 'el', icon: '🇬🇷', name: 'Ελληνικά', randomizable: true }];
                         this.availableModels = [{ id: 'lama', name: 'LaMa' }];
                     }
 
