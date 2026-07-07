@@ -534,7 +534,7 @@ def main():
     ui_path = os.path.join(script_dir, 'ui', 'index.html')
 
     window = webview.create_window(
-        'WatermarkRemover AI - Ohio Edition',
+        'WatermarkRemover-AI-Revamped',
         ui_path,
         js_api=api,
         width=950,
