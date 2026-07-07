@@ -1,6 +1,6 @@
 """
-WatermarkRemover-AI GUI - Ohio Edition
-PyWebview frontend with brainrot HTML UI
+WatermarkRemover-AI-Revamped GUI
+PyWebview frontend
 """
 
 import logging
@@ -335,8 +335,8 @@ class Api:
             'detection_skip': detection_skip,
             'fade_in': fade_in,
             'fade_out': fade_out,
-            'theme': settings.get('theme', 'brainrot'),
-            'lang': settings.get('lang', 'brainrot')
+            'theme': settings.get('theme', 'korpo'),
+            'lang': settings.get('lang', 'en')
         })
 
         # Build command

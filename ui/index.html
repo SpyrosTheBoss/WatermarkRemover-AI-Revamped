@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WM REMOVER - OHIO EDITION</title>
+    <title>WatermarkRemover-AI-Revamped</title>
 
     <!-- Tailwind + Alpine + Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
     <!-- Base fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Rubik+Glitch&family=Inter:wght@400;800;900&display=swap" rel="stylesheet">
-    <!-- Theme fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Dancing+Script:wght@700&family=Oswald:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Mali:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -106,7 +104,7 @@
             visibility: hidden;
             transition: opacity 0.15s ease, visibility 0.15s ease;
             pointer-events: none;
-            /* Default theme (brainrot) */
+            /* Default tooltip style */
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #00ff88;
             border: 1px solid #00ff88;
@@ -165,13 +163,13 @@
                 </div>
                 <!-- Theme & Language Selectors -->
                 <div class="flex flex-col gap-1">
-                    <select x-show="availableThemes.length > 0" x-model="theme" @change="switchTheme(theme); saveConfigDebounced()" class="bg-black/50 border border-white/20 text-white text-[10px] rounded-lg px-2 py-1 focus:border-neon-pink outline-none font-mono">
+                    <select x-show="availableThemes.length > 1" x-model="theme" @change="switchTheme(theme); saveConfigDebounced()" class="bg-black/50 border border-white/20 text-white text-[10px] rounded-lg px-2 py-1 focus:border-neon-pink outline-none font-mono">
                         <template x-for="th in availableThemes" :key="th.id">
                             <option :value="th.id" :selected="th.id === theme" x-text="th.name || th.id"></option>
                         </template>
                     </select>
                     <!-- Language selector -->
-                    <select x-show="availableLanguages.length > 0" x-model="lang" @change="switchLang(lang); saveConfigDebounced()" class="bg-black/50 border border-white/20 text-white text-[10px] rounded-lg px-2 py-1 focus:border-neon-cyan outline-none font-mono">
+                    <select x-show="availableLanguages.length > 1" x-model="lang" @change="switchLang(lang); saveConfigDebounced()" class="bg-black/50 border border-white/20 text-white text-[10px] rounded-lg px-2 py-1 focus:border-neon-cyan outline-none font-mono">
                         <template x-for="ln in availableLanguages" :key="ln.id">
                             <option :value="ln.id" :selected="ln.id === lang" x-text="(ln.icon ? ln.icon + ' ' : '') + (ln.name || ln.id)"></option>
                         </template>
@@ -523,11 +521,8 @@
 
         // Theme switcher function
         function switchTheme(themeName) {
-            const themes = ['theme-slay', 'theme-sigma', 'theme-witch', 'theme-korpo', 'theme-coquette', 'theme-xp', 'theme-anime'];
-            document.body.classList.remove(...themes);
-            if (themeName !== 'brainrot') {
-                document.body.classList.add('theme-' + themeName);
-            }
+            document.body.classList.remove('theme-korpo');
+            document.body.classList.add('theme-korpo');
         }
 
         // i18n - Load language file
@@ -538,9 +533,9 @@
                 return await response.json();
             } catch (e) {
                 console.error('Failed to load language:', lang, e);
-                // Fallback to brainrot
-                if (lang !== 'brainrot') {
-                    return await loadLanguage('brainrot');
+                // Fallback to English
+                if (lang !== 'en') {
+                    return await loadLanguage('en');
                 }
                 return null;
             }
@@ -559,7 +554,7 @@
                 processing: false,
                 progress: 0,
                 statusMsg: '',
-                theme: 'brainrot',  // Default theme for loading screen
+                theme: 'korpo',  // Default theme for loading screen
                 lang: 'en',
                 t: {}, // translations
                 // Dynamic config loaded from config.json
@@ -606,8 +601,8 @@
                     } catch (e) {
                         console.log('Failed to load config.json, using defaults');
                         this.appVersion = '0.0';
-                        this.availableThemes = [{ id: 'brainrot' }];
-                        this.availableLanguages = [{ id: 'brainrot', randomizable: true }, { id: 'en', randomizable: false }];
+                        this.availableThemes = [{ id: 'korpo', name: 'Corporate' }];
+                        this.availableLanguages = [{ id: 'en', icon: '🇬🇧', name: 'English', randomizable: true }];
                     }
 
                     // Helper to pick random from array
