@@ -1,10 +1,12 @@
-# WatermarkRemover-AI
+# WatermarkRemover-AI-Revamped
 
 **AI-Powered Watermark Removal Tool using Florence-2 and LaMA Models**
 
 🇬🇧 English | 🇫🇷 Français | 🇨🇳 中文 | 🇯🇵 日本語 | 🇧🇷 Português | 🧠 Brainrot
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+> A fork of [D-Ogi/WatermarkRemover-AI](https://github.com/D-Ogi/WatermarkRemover-AI) with startup-hang fixes, background CUDA/GPU detection, a pinned working CUDA torch build, and (soon) premade builds.
 
 ---
 
@@ -48,8 +50,8 @@ https://github.com/user-attachments/assets/505be2a8-8eda-4def-90b6-5a4ceefee456
 The setup script downloads a portable Python environment automatically - no system Python required.
 
 ```powershell
-git clone https://github.com/D-Ogi/WatermarkRemover-AI.git
-cd WatermarkRemover-AI
+git clone https://github.com/SpyrosTheBoss/WatermarkRemover-AI-Revamped.git
+cd WatermarkRemover-AI-Revamped
 .\setup.ps1
 ```
 
@@ -60,8 +62,8 @@ After setup, double-click `run.bat` to launch the app.
 Requires Python 3.10+ installed on your system.
 
 ```bash
-git clone https://github.com/D-Ogi/WatermarkRemover-AI.git
-cd WatermarkRemover-AI
+git clone https://github.com/SpyrosTheBoss/WatermarkRemover-AI-Revamped.git
+cd WatermarkRemover-AI-Revamped
 chmod +x setup.sh
 ./setup.sh
 ```
@@ -159,6 +161,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=D-Ogi/WatermarkRemover-AI&type=date&legend=top-left)](https://www.star-history.com/#D-Ogi/WatermarkRemover-AI&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=SpyrosTheBoss/WatermarkRemover-AI-Revamped&type=date&legend=top-left)](https://www.star-history.com/#SpyrosTheBoss/WatermarkRemover-AI-Revamped&type=date&legend=top-left)
 
 
