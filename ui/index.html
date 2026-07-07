@@ -283,6 +283,16 @@
                     </div>
                 </div>
 
+                <!-- Inpainting Model Dropdown -->
+                <div class="space-y-1" x-show="!transparent">
+                    <label class="text-[10px] text-gray-500 uppercase cursor-help" :data-tooltip="t.settings?.inpaint_model?.tooltip || ''" x-text="t.settings?.inpaint_model?.label || 'Inpainting Model'"></label>
+                    <select x-model="inpaintModel" @change="saveConfigDebounced()" class="w-full bg-black border border-white/20 text-white text-sm rounded-lg p-2.5 focus:border-neon-green outline-none font-mono">
+                        <template x-for="m in availableModels" :key="m.id">
+                            <option :value="m.id" :selected="m.id === inpaintModel" x-text="m.name || m.id"></option>
+                        </template>
+                    </select>
+                </div>
+
                 <!-- Format Dropdown -->
                 <div class="space-y-1">
                     <label class="text-[10px] text-gray-500 uppercase cursor-help" :data-tooltip="t.settings?.output_format?.tooltip || ''" x-text="t.settings?.output_format?.label || 'Output Format'"></label>
@@ -543,6 +553,8 @@
                 transparent: false,
                 detection: 15,
                 format: 'None',
+                inpaintModel: 'lama',
+                availableModels: [],
                 inputPath: '',
                 outputPath: '',
                 processing: false,
@@ -592,11 +604,13 @@
                         this.appVersion = uiConfig.version || '0.0';
                         this.availableThemes = uiConfig.themes || [];
                         this.availableLanguages = uiConfig.languages || [];
+                        this.availableModels = uiConfig.inpaint_models || [];
                     } catch (e) {
                         console.log('Failed to load config.json, using defaults');
                         this.appVersion = '0.0';
                         this.availableThemes = [{ id: 'korpo', name: 'Corporate' }];
                         this.availableLanguages = [{ id: 'en', icon: '🇬🇧', name: 'English', randomizable: true }];
+                        this.availableModels = [{ id: 'lama', name: 'LaMa' }];
                     }
 
                     // Helper to pick random from array
@@ -618,6 +632,7 @@
                             this.transparent = config.transparent || false;
                             this.detection = config.max_bbox_percent || 15;
                             this.format = config.force_format || 'None';
+                            this.inpaintModel = config.inpaint_model || 'lama';
                             this.mode = config.mode || 'single';
                             this.detectionPrompt = config.detection_prompt || 'watermark';
                             this.detectionSkip = config.detection_skip || 1;
@@ -827,6 +842,7 @@
                                 transparent: this.transparent,
                                 max_bbox: this.detection,
                                 format: this.format,
+                                inpaint_model: this.inpaintModel || 'lama',
                                 mode: this.mode,
                                 detection_prompt: this.detectionPrompt || 'watermark',
                                 // Video settings
@@ -968,6 +984,7 @@
                         transparent: this.transparent,
                         max_bbox_percent: this.detection,
                         force_format: this.format,
+                        inpaint_model: this.inpaintModel,
                         mode: this.mode,
                         detection_prompt: this.detectionPrompt,
                         // Video settings

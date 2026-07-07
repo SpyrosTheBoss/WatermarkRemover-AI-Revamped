@@ -29,6 +29,10 @@
       "placeholder": "watermark",
       "tooltip": "What to detect and remove. Try: watermark, logo, text, signature, etc."
     },
+    "inpaint_model": {
+      "label": "Inpainting Model",
+      "tooltip": "AI model used to fill in the removed watermark area. LaMa is the default and works well for most cases."
+    },
     "output_format": {
       "label": "Output Format",
       "tooltip": "Choose output file format. Auto keeps the original format.",

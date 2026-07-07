@@ -29,6 +29,10 @@
       "placeholder": "marca d'agua",
       "tooltip": "Fala pro pai o que tem que sumir. Ex: logo, texto, dívida no Serasa."
     },
+    "inpaint_model": {
+      "label": "Motor do Crime (Modelo IA)",
+      "tooltip": "A IA que tapa o buraco depois do roubo. LaMa é o padrão, resolve 90% dos perrengues."
+    },
     "output_format": {
       "label": "Saída (Naipe)",
       "tooltip": "Escolhe como vai sair o produto do roubo.",

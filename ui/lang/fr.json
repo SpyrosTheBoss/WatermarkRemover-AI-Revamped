@@ -29,6 +29,10 @@
       "placeholder": "quoicoubeh",
       "tooltip": "Dis-moi ce que je dois virer. Ex: logo, text, ce truc moche."
     },
+    "inpaint_model": {
+      "label": "Le Moteur (Modèle IA)",
+      "tooltip": "L'IA qui rebouche le trou après le nettoyage. LaMa par défaut, ça fait le taf dans 90% des cas."
+    },
     "output_format": {
       "label": "Le Flow de sortie",
       "tooltip": "Choisis comment ça sort. Auto garde le flow original.",

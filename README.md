@@ -2,7 +2,7 @@
 
 **AI-Powered Watermark Removal Tool using Florence-2 and LaMA Models**
 
-🇬🇧 English | 🇫🇷 Français | 🇨🇳 中文 | 🇯🇵 日本語 | 🇧🇷 Português
+🇬🇧 English | 🇫🇷 Français | 🇨🇳 中文 | 🇧🇷 Português
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -38,7 +38,7 @@ https://github.com/user-attachments/assets/505be2a8-8eda-4def-90b6-5a4ceefee456
 - **Preview Mode** - Preview detected watermarks before processing
 - **Fade In/Out Handling** - Extend masks for watermarks that fade in/out
 - **GPU Acceleration** - CUDA support for faster processing
-- **Multi-Language UI** - Available in English, French, Chinese, Japanese, and Portuguese
+- **Multi-Language UI** - Available in English, French, Chinese, and Portuguese
 - **Clean Corporate UI** - Single professional theme
 
 ---

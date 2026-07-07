@@ -29,6 +29,10 @@
       "placeholder": "给👴删了",
       "tooltip": "想删啥？watermark, logo, text... 别整那些有的没的 🤫"
     },
+    "inpaint_model": {
+      "label": "补坑引擎",
+      "tooltip": "填坑用的AI模型，默认LaMa，一般情况够用了 🛠️"
+    },
     "output_format": {
       "label": "拉什么屎",
       "tooltip": "选个格式，不然👴怎么知道你要啥？",

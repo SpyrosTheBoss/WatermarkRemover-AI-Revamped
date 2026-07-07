@@ -321,6 +321,7 @@ class Api:
         detection_skip = settings.get('detection_skip', 1)
         fade_in = settings.get('fade_in', 0)
         fade_out = settings.get('fade_out', 0)
+        inpaint_model = settings.get('inpaint_model', 'lama')
 
         # Save config
         self.save_config({
@@ -335,6 +336,7 @@ class Api:
             'detection_skip': detection_skip,
             'fade_in': fade_in,
             'fade_out': fade_out,
+            'inpaint_model': inpaint_model,
             'theme': settings.get('theme', 'korpo'),
             'lang': settings.get('lang', 'en')
         })
@@ -366,6 +368,9 @@ class Api:
 
         if fade_out and float(fade_out) > 0:
             cmd.append(f'--fade-out={float(fade_out)}')
+
+        if inpaint_model and inpaint_model != 'lama':
+            cmd.append(f'--model={inpaint_model}')
 
         # Start processing in background thread
         self.is_running = True

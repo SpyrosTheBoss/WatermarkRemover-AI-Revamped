@@ -7,7 +7,16 @@
     { "id": "en", "icon": "🇬🇧", "name": "English", "randomizable": true },
     { "id": "fr", "icon": "🇫🇷", "name": "Français", "randomizable": false },
     { "id": "zh", "icon": "🇨🇳", "name": "中文", "randomizable": false },
-    { "id": "jp", "icon": "🇯🇵", "name": "厨二病", "randomizable": false },
     { "id": "br", "icon": "🇧🇷", "name": "Brasileiro", "randomizable": false }
+  ],
+  "inpaint_models": [
+    { "id": "lama", "name": "LaMa (default)" },
+    { "id": "ldm", "name": "LDM" },
+    { "id": "zits", "name": "ZITS" },
+    { "id": "mat", "name": "MAT" },
+    { "id": "fcf", "name": "FcF" },
+    { "id": "manga", "name": "Manga (best for manga/comics)" },
+    { "id": "cv2", "name": "OpenCV (fast, CPU-only)" },
+    { "id": "migan", "name": "MI-GAN (fast, lightweight)" }
   ]
 }

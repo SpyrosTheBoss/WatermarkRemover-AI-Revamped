@@ -13,6 +13,7 @@ if not hasattr(huggingface_hub, 'cached_download'):
 from transformers import AutoProcessor, Florence2ForConditionalGeneration
 from iopaint.model_manager import ModelManager
 from iopaint.schema import HDStrategy, LDMSampler, InpaintRequest as Config
+from iopaint.const import AVAILABLE_MODELS, DEFAULT_MODEL
 import torch
 from torch.nn import Module
 import tqdm
@@ -29,42 +30,42 @@ except ImportError:
     MatLike = np.ndarray
 
 
-def download_lama_model():
-    """Download LaMA model using iopaint."""
-    logger.info("Downloading LaMA model... (this may take a few minutes)")
-    print("Downloading LaMA model (~196MB)... Please wait.")
+def download_inpaint_model(model_name):
+    """Download an inpainting model using iopaint."""
+    logger.info(f"Downloading {model_name} model... (this may take a few minutes)")
+    print(f"Downloading {model_name} model... Please wait.")
 
     result = subprocess.run(
-        [sys.executable, "-m", "iopaint", "download", "--model", "lama"],
+        [sys.executable, "-m", "iopaint", "download", "--model", model_name],
         capture_output=False,  # Show download progress
         text=True
     )
 
     if result.returncode != 0:
-        logger.error("Failed to download LaMA model")
+        logger.error(f"Failed to download {model_name} model")
         return False
 
-    logger.info("LaMA model downloaded successfully")
-    print("LaMA model downloaded!")
+    logger.info(f"{model_name} model downloaded successfully")
+    print(f"{model_name} model downloaded!")
     return True
 
 
-def load_lama_model(device):
-    """Load LaMA model, downloading if necessary."""
+def load_inpaint_model(device, model_name=DEFAULT_MODEL):
+    """Load an inpainting model, downloading it first if necessary."""
     try:
-        return ModelManager(name="lama", device=device)
+        return ModelManager(name=model_name, device=device)
     except NotImplementedError as e:
-        if "Unsupported model: lama" in str(e):
-            print("LaMA model not available, attempting to download...")
-            if download_lama_model():
+        if f"Unsupported model: {model_name}" in str(e):
+            print(f"{model_name} model not available, attempting to download...")
+            if download_inpaint_model(model_name):
                 # Re-import to refresh model registry
                 import importlib
                 import iopaint.model
                 importlib.reload(iopaint.model)
                 # Try again
-                return ModelManager(name="lama", device=device)
+                return ModelManager(name=model_name, device=device)
             else:
-                raise RuntimeError("Failed to download LaMA model. Please run manually: python\\python.exe -m iopaint download --model lama")
+                raise RuntimeError(f"Failed to download {model_name} model. Please run manually: python\\python.exe -m iopaint download --model {model_name}")
         raise
 
 class TaskType(str, Enum):
@@ -156,7 +157,7 @@ def detect_only(image: MatLike, model: Florence2ForConditionalGeneration, proces
 
     return results
 
-def process_image_with_lama(image: MatLike, mask: MatLike, model_manager: ModelManager):
+def process_image_with_model(image: MatLike, mask: MatLike, model_manager: ModelManager):
     config = Config(
         ldm_steps=50,
         ldm_sampler=LDMSampler.ddim,
@@ -253,8 +254,8 @@ def process_video(input_path, output_path, florence_model, florence_processor, m
                 background.paste(result_image, mask=result_image.split()[3])
                 result_image = background
             else:
-                lama_result = process_image_with_lama(np.array(pil_image), np.array(mask_image), model_manager)
-                result_image = Image.fromarray(cv2.cvtColor(lama_result, cv2.COLOR_BGR2RGB))
+                inpaint_result = process_image_with_model(np.array(pil_image), np.array(mask_image), model_manager)
+                result_image = Image.fromarray(cv2.cvtColor(inpaint_result, cv2.COLOR_BGR2RGB))
             
             # Convert back to OpenCV format and write to output video
             frame_result = cv2.cvtColor(np.array(result_image), cv2.COLOR_RGB2BGR)
@@ -448,8 +449,8 @@ def process_video_two_pass(input_path, output_path, florence_model, florence_pro
                     background.paste(result_image, mask=result_image.split()[3])
                     result_image = background
                 else:
-                    lama_result = process_image_with_lama(np.array(pil_image), np.array(mask), model_manager)
-                    result_image = Image.fromarray(cv2.cvtColor(lama_result, cv2.COLOR_BGR2RGB))
+                    inpaint_result = process_image_with_model(np.array(pil_image), np.array(mask), model_manager)
+                    result_image = Image.fromarray(cv2.cvtColor(inpaint_result, cv2.COLOR_BGR2RGB))
 
                 frame_result = cv2.cvtColor(np.array(result_image), cv2.COLOR_RGB2BGR)
             else:
@@ -530,8 +531,8 @@ def handle_one(image_path: Path, output_path: Path, florence_model, florence_pro
     if transparent:
         result_image = make_region_transparent(image, mask_image)
     else:
-        lama_result = process_image_with_lama(np.array(image), np.array(mask_image), model_manager)
-        result_image = Image.fromarray(cv2.cvtColor(lama_result, cv2.COLOR_BGR2RGB))
+        inpaint_result = process_image_with_model(np.array(image), np.array(mask_image), model_manager)
+        result_image = Image.fromarray(cv2.cvtColor(inpaint_result, cv2.COLOR_BGR2RGB))
 
     # Determine output format
     if force_format:
@@ -570,7 +571,8 @@ def handle_one(image_path: Path, output_path: Path, florence_model, florence_pro
 @click.option("--detection-skip", default=1, type=int, help="Detect watermarks every N frames for videos (1-10). Higher = faster but may miss brief watermarks.")
 @click.option("--fade-in", default=0.0, type=float, help="Extend mask backwards by N seconds to handle fade-in watermarks.")
 @click.option("--fade-out", default=0.0, type=float, help="Extend mask forwards by N seconds to handle fade-out watermarks.")
-def main(input_path: str, output_path: str, preview: bool, overwrite: bool, transparent: bool, max_bbox_percent: float, force_format: str, detection_prompt: str, detection_skip: int, fade_in: float, fade_out: float):
+@click.option("--model", type=click.Choice(AVAILABLE_MODELS, case_sensitive=False), default=DEFAULT_MODEL, help="Inpainting model to use for watermark removal.")
+def main(input_path: str, output_path: str, preview: bool, overwrite: bool, transparent: bool, max_bbox_percent: float, force_format: str, detection_prompt: str, detection_skip: int, fade_in: float, fade_out: float, model: str):
     # Input validation
     if detection_skip < 1 or detection_skip > 10:
         logger.warning(f"detection_skip must be 1-10, got {detection_skip}. Using 1.")
@@ -680,8 +682,8 @@ def main(input_path: str, output_path: str, preview: bool, overwrite: bool, tran
     logger.info("Florence-2 Model loaded")
 
     if not transparent:
-        model_manager = load_lama_model(device)
-        logger.info("LaMa model loaded")
+        model_manager = load_inpaint_model(device, model)
+        logger.info(f"{model} model loaded")
     else:
         model_manager = None
 
