@@ -29,6 +29,7 @@ Florence-2 (Microsoft) handles watermark detection, and an IOPaint inpainting mo
 - **Pinned a verified-working CUDA torch build** (`torch==2.6.0+cu124` / `torchvision==0.21.0+cu124`) - the previous open version range could silently resolve to a CPU-only wheel.
 - **Pinned `transformers==5.13.0`** - the old open-ended `>=4.50.0` could resolve to a version that predates Florence2 being mainlined into the library, breaking the Florence2 import entirely on fresh installs.
 - **Fixed Python 3.13 compatibility** - iopaint depends on the stdlib `imghdr` module, which Python 3.13 removed; the `standard-imghdr` backport is now pulled in automatically on 3.13+.
+- **Fixed a silent install-verification bug** - `setup.ps1` only reported a failure if *both* the verify step and the previous pip install had non-zero exit codes, so a PyTorch DLL load failure (missing VC++ Redistributable) could pass setup silently and only surface later as a crash. Both `setup.ps1` and `setup.bat` now detect this specific failure and point you at the redistributable installer.
 
 ### New features
 - **Inpainting model picker** - choose from all 8 IOPaint models (LaMa, LDM, ZITS, MAT, FcF, Manga, OpenCV, MI-GAN) instead of being locked to LaMa. Wired through both the GUI and the CLI (`--model`).
@@ -161,6 +162,13 @@ python remwm.py input.png --preview
 - **Audio preservation:** Requires FFmpeg installed
 - **Two-pass mode:** Faster processing with `--detection-skip` > 1
 - **Fade handling:** Use `--fade-in` / `--fade-out` for watermarks that appear/disappear gradually
+
+---
+
+## Troubleshooting
+
+**`OSError: [WinError 1114] ... c10.dll` (or the app crashes silently on launch)**
+PyTorch needs the Microsoft Visual C++ Redistributable installed system-wide - it's a separate requirement from Python itself, and the portable Python build doesn't include it. Install the [VC++ Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe) and try again. `setup.ps1`/`setup.bat` now detect and report this specifically instead of failing silently.
 
 ---
 

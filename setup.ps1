@@ -145,15 +145,23 @@ while (-not $process.HasExited) {
 
 Write-Host "`r                                                                                              "
 
-# Legacy resolver can return non-zero even on success, so verify key packages
+# Legacy resolver can return non-zero even on success (and vice versa - pip can
+# exit 0 while the installed wheels still fail to import at runtime), so verify
+# by actually importing the key packages rather than trusting the exit code.
 $verifyResult = & $PYTHON_EXE -c "import torch; import transformers; import webview; import cv2; print('OK')" 2>&1
-if ($verifyResult -ne "OK") {
-    if ($process.ExitCode -ne 0) {
-        Write-Host ""
+$verifyText = ($verifyResult | Out-String).Trim()
+if ($verifyText -notmatch "OK$") {
+    Write-Host ""
+    if ($verifyText -match "WinError 1114" -or $verifyText -match "c10\.dll") {
+        Write-Host "  [X] PyTorch failed to load (missing Visual C++ Redistributable)" -ForegroundColor Red
+        Write-Host "      Install the Microsoft Visual C++ Redistributable (x64) and re-run this script:" -ForegroundColor Yellow
+        Write-Host "      https://aka.ms/vs/17/release/vc_redist.x64.exe" -ForegroundColor Yellow
+    } else {
         Write-Host "  [X] Failed to install dependencies" -ForegroundColor Red
-        Read-Host "  Press Enter to exit"
-        exit 1
+        Write-Host $verifyText -ForegroundColor Yellow
     }
+    Read-Host "  Press Enter to exit"
+    exit 1
 }
 
 # Install iopaint separately without pulling its deps (we already have ours)

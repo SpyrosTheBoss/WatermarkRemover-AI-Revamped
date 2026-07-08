@@ -108,12 +108,22 @@ if errorlevel 1 (
 )
 
 :: Verify key packages
-"%PYTHON_EXE%" -c "import torch; import transformers; import webview; import cv2; print('OK')" >nul 2>&1
+"%PYTHON_EXE%" -c "import torch; import transformers; import webview; import cv2; print('OK')" >"%TEMP%\wmremover_verify.log" 2>&1
 if errorlevel 1 (
     echo   [X] Failed to verify base packages
+    findstr /C:"WinError 1114" /C:"c10.dll" "%TEMP%\wmremover_verify.log" >nul 2>&1
+    if not errorlevel 1 (
+        echo       PyTorch failed to load - this usually means the Microsoft Visual C++
+        echo       Redistributable (x64) is missing. Install it and re-run this script:
+        echo       https://aka.ms/vs/17/release/vc_redist.x64.exe
+    ) else (
+        type "%TEMP%\wmremover_verify.log"
+    )
+    del "%TEMP%\wmremover_verify.log" >nul 2>&1
     pause
     exit /b 1
 )
+del "%TEMP%\wmremover_verify.log" >nul 2>&1
 echo   [OK] Base packages installed
 
 :: Install iopaint without dependencies
