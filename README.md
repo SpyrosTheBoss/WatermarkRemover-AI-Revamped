@@ -27,6 +27,8 @@ Florence-2 (Microsoft) handles watermark detection, and an IOPaint inpainting mo
 - **Fixed a startup freeze/hang** - launching via `run.bat` (pythonw.exe, no console) could crash the print/log handler and leave the window "Not Responding." Output is now routed through a safe stream wrapper that can't raise.
 - **Non-blocking CUDA/GPU detection** - detection used to run on the UI thread and freeze the window for several seconds on launch; it now runs in the background and the UI polls for the result.
 - **Pinned a verified-working CUDA torch build** (`torch==2.6.0+cu124` / `torchvision==0.21.0+cu124`) - the previous open version range could silently resolve to a CPU-only wheel.
+- **Pinned `transformers==5.13.0`** - the old open-ended `>=4.50.0` could resolve to a version that predates Florence2 being mainlined into the library, breaking the Florence2 import entirely on fresh installs.
+- **Fixed Python 3.13 compatibility** - iopaint depends on the stdlib `imghdr` module, which Python 3.13 removed; the `standard-imghdr` backport is now pulled in automatically on 3.13+.
 
 ### New features
 - **Inpainting model picker** - choose from all 8 IOPaint models (LaMa, LDM, ZITS, MAT, FcF, Manga, OpenCV, MI-GAN) instead of being locked to LaMa. Wired through both the GUI and the CLI (`--model`).
@@ -54,6 +56,17 @@ Florence-2 (Microsoft) handles watermark detection, and an IOPaint inpainting mo
 - **GPU Acceleration** - CUDA support for faster processing
 - **Multi-Language UI** - English (default), Greek, French, Chinese, and Portuguese
 - **Clean Corporate UI** - a single, professional theme
+
+---
+
+## System Requirements
+
+- **OS:** Windows 10/11 (64-bit), Linux, or macOS
+- **Python:** 3.10+ if installing manually (the Windows portable build and prepackaged release both ship Python 3.12.7, so you don't need this)
+- **GPU (optional but recommended):** NVIDIA GPU with a CUDA 12.4-compatible driver. The pinned `torch==2.6.0+cu124` build has known gaps at both ends of the hardware range - very old cards (pre-Pascal, e.g. Titan V/sm70) and very new ones (RTX 50-series/Blackwell, sm120) may not initialize CUDA and will silently fall back to CPU. Everything still works on CPU, just slower.
+- **RAM:** 8GB minimum, 16GB+ recommended for video processing
+- **Disk space:** ~6GB for the prepackaged build after extraction, plus ~2GB for AI models (Florence-2 ~1.5GB, inpainting model 196MB-1GB depending which one you pick) downloaded on first run
+- **FFmpeg (optional):** only needed to preserve audio when processing video
 
 ---
 

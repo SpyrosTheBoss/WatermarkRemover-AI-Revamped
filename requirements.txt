@@ -6,9 +6,19 @@
 --extra-index-url https://download.pytorch.org/whl/cu124
 torch==2.6.0+cu124
 torchvision==0.21.0+cu124
-transformers>=4.50.0
+# Pinned to a verified-working build: Florence2ForConditionalGeneration was only
+# mainlined into transformers at some point after the 4.44-4.50 range (upstream
+# issue #77 reporters were on those older versions, before it existed at all).
+# An open-ended >= let pip resolve to releases that predate the merge just as
+# easily as ones that postdate it, so pin to the exact version confirmed to
+# import and run Florence2 successfully in this environment.
+transformers==5.13.0
 diffusers>=0.30.0
 numpy<2
+
+# Python 3.13 removed the stdlib imghdr module that iopaint's helper.py still
+# imports; this backport keeps iopaint working on 3.13+ (upstream issue #58).
+standard-imghdr; python_version >= "3.13"
 
 # Image/Video processing
 opencv-python-headless>=4.8.0,<4.12.0
@@ -16,7 +26,7 @@ Pillow>=10.0.0
 
 # Inpainting core (iopaint installed separately with --no-deps to avoid resolver conflicts)
 
-# GUI (PyWebview for brainrot HTML UI)
+# GUI (PyWebview)
 pywebview>=4.0
 
 # Utilities

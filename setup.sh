@@ -112,12 +112,12 @@ fi
 # Install other dependencies (without torch lines)
 echo "  [*] Installing other dependencies..."
 if [ "$CHINA_MODE" == "1" ]; then
-    pip install transformers>=4.50.0 diffusers>=0.30.0 "numpy<2" --no-cache-dir $PIP_MIRROR -q
+    pip install transformers==5.13.0 diffusers>=0.30.0 "numpy<2" --no-cache-dir $PIP_MIRROR -q
     pip install "opencv-python-headless>=4.8.0,<4.12.0" "Pillow>=10.0.0" --no-cache-dir $PIP_MIRROR -q
     pip install pywebview>=4.0 --no-cache-dir $PIP_MIRROR -q
     pip install loguru click tqdm psutil pyyaml --no-cache-dir $PIP_MIRROR -q
 else
-    pip install transformers>=4.50.0 diffusers>=0.30.0 "numpy<2" --no-cache-dir -q
+    pip install transformers==5.13.0 diffusers>=0.30.0 "numpy<2" --no-cache-dir -q
     pip install "opencv-python-headless>=4.8.0,<4.12.0" "Pillow>=10.0.0" --no-cache-dir -q
     pip install pywebview>=4.0 --no-cache-dir -q
     pip install loguru click tqdm psutil pyyaml --no-cache-dir -q
@@ -137,6 +137,16 @@ if [ "$CHINA_MODE" == "1" ]; then
     pip install pydantic typer einops omegaconf easydict yacs --no-cache-dir $PIP_MIRROR -q
 else
     pip install pydantic typer einops omegaconf easydict yacs --no-cache-dir -q
+fi
+
+# Python 3.13 removed the stdlib imghdr module that iopaint's helper.py still imports
+PY_MINOR=$(python -c "import sys; print(sys.version_info.minor)")
+if [ "$PY_MINOR" -ge 13 ]; then
+    if [ "$CHINA_MODE" == "1" ]; then
+        pip install standard-imghdr --no-cache-dir $PIP_MIRROR -q
+    else
+        pip install standard-imghdr --no-cache-dir -q
+    fi
 fi
 echo "  [OK] Dependencies installed"
 
